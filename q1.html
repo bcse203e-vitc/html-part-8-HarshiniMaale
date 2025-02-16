@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Dynamic Table Creator</h2>
+    
+    <label for="rows">Rows:</label>
+    <input type="number" id="rows" min="1" value="3">
+    
+    <label for="cols">Columns:</label>
+    <input type="number" id="cols" min="1" value="3">
+    
+    <button onclick="generateTable()">Generate Table</button>
+    
+    <div id="table-container"></div>
+
+    <script>
+        function generateTable() {
+            const rows = document.getElementById("rows").value;
+            const cols = document.getElementById("cols").value;
+            const container = document.getElementById("table-container");
+
+            // Clear previous table
+            container.innerHTML = "";
+
+            // Create table element
+            const table = document.createElement("table");
+
+            for (let i = 0; i < rows; i++) {
+                const tr = document.createElement("tr");
+
+                for (let j = 0; j < cols; j++) {
+                    const td = document.createElement("td");
+                    td.textContent = `(${i + 1}, ${j + 1})`;
+                    tr.appendChild(td);
+                }
+
+                // Add delete row button
+                const deleteRowBtn = document.createElement("button");
+                deleteRowBtn.textContent = "X";
+                deleteRowBtn.classList.add("delete-btn");
+                deleteRowBtn.onclick = () => tr.remove();
+
+                const td = document.createElement("td");
+                td.appendChild(deleteRowBtn);
+                tr.appendChild(td);
+
+                table.appendChild(tr);
+            }
+
+            // Add delete column buttons
+            const headerRow = document.createElement("tr");
+            for (let j = 0; j < cols; j++) {
+                const th = document.createElement("th");
+                const deleteColBtn = document.createElement("button");
+                deleteColBtn.textContent = "X";
+                deleteColBtn.classList.add("delete-btn");
+                deleteColBtn.onclick = () => deleteColumn(j);
+                th.appendChild(deleteColBtn);
+                headerRow.appendChild(th);
+            }
+            table.insertBefore(headerRow, table.firstChild);
+
+            container.appendChild(table);
+        }
+
+        function deleteColumn(index) {
+            const table = document.querySelector("table");
+            for (let row of table.rows) {
+                if (row.cells.length > index) {
+                    row.deleteCell(index);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
