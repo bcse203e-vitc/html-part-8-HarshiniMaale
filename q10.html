@@ -1,3 +1,53 @@
-Dynamic Font Size Adjuster
-Create a paragraph with buttons: 🔺"Increase Font Size" 🔻"Decrease Font Size"
-Clicking the buttons should adjust the text size dynamically.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Size Adjuster</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        p {
+            font-size: 16px;
+            margin: 20px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .increase { background: #28a745; color: white; }
+        .decrease { background: #dc3545; color: white; }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Dynamic Font Size Adjuster</h2>
+    <p id="text">This is a sample text. Click the buttons to adjust its size dynamically.</p>
+    
+    <button class="increase" onclick="adjustFontSize(2)">🔺 Increase Font Size</button>
+    <button class="decrease" onclick="adjustFontSize(-2)">🔻 Decrease Font Size</button>
+
+    <script>
+        function adjustFontSize(change) {
+            let textElement = document.getElementById("text");
+            let currentSize = parseInt(window.getComputedStyle(textElement).fontSize);
+            let newSize = currentSize + change;
+
+            if (newSize >= 10 && newSize <= 50) { // Prevent too small or too large text
+                textElement.style.fontSize = newSize + "px";
+            }
+        }
+    </script>
+
+</body>
+</html>
