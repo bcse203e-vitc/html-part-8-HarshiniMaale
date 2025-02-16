@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .carousel {
+            width: 500px;
+            height: 300px;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            display: none;
+            object-fit: cover;
+        }
+        .carousel img.active {
+            display: block;
+        }
+        .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev {
+            left: 10px;
+        }
+        .next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Image Carousel</h2>
+
+    <div class="carousel" id="carousel">
+        <img src="https://source.unsplash.com/500x300/?nature,water" class="active">
+        <img src="https://source.unsplash.com/500x300/?mountains,sky">
+        <img src="https://source.unsplash.com/500x300/?forest,trees">
+        <img src="https://source.unsplash.com/500x300/?city,night">
+        <img src="https://source.unsplash.com/500x300/?beach,sunset">
+        
+        <button class="btn prev" onclick="prevSlide()">❮</button>
+        <button class="btn next" onclick="nextSlide()">❯</button>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll(".carousel img");
+        let autoSlide = setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
+
+        function showSlide(index) {
+            images.forEach(img => img.classList.remove("active"));
+            images[index].classList.add("active");
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showSlide(currentIndex);
+        }
+
+        // Pause on hover
+        document.getElementById("carousel").addEventListener("mouseover", () => {
+            clearInterval(autoSlide);
+        });
+
+        document.getElementById("carousel").addEventListener("mouseleave", () => {
+            autoSlide = setInterval(nextSlide, 3000);
+        });
+    </script>
+
+</body>
+</html>
