@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter with Repeated Word Highlighting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+        .word-count {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Word Counter</h2>
+    <textarea id="textInput" oninput="updateWordCount()"></textarea>
+    <p class="word-count">Word Count: <span id="wordCount">0</span></p>
+    <p>Repeated words are highlighted in <span style="background-color: yellow;">yellow</span>.</p>
+    <p id="highlightedText"></p>
+
+    <script>
+        function updateWordCount() {
+            let text = document.getElementById("textInput").value;
+            let words = text.match(/\b\w+\b/g) || []; // Extract words
+            document.getElementById("wordCount").textContent = words.length;
+
+            // Count occurrences of each word
+            let wordMap = {};
+            words.forEach(word => {
+                word = word.toLowerCase();
+                wordMap[word] = (wordMap[word] || 0) + 1;
+            });
+
+            // Highlight repeated words
+            let highlightedText = text.replace(/\b\w+\b/g, function(match) {
+                return wordMap[match.toLowerCase()] > 1 ? `<span class="highlight">${match}</span>` : match;
+            });
+
+            document.getElementById("highlightedText").innerHTML = highlightedText;
+        }
+    </script>
+
+</body>
+</html>
